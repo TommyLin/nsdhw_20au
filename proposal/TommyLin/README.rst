@@ -244,9 +244,7 @@ checkpatch.pl
 Static Analysis Tool
 ____________________
 
-`cppcheck <http://cppcheck.sourceforge.net/>`_
-
-A static analysis tool for C/C++ code
+`cppcheck -- A static analysis tool for C/C++ code <http://cppcheck.sourceforge.net/>`_
 
 
 
@@ -254,6 +252,42 @@ A static analysis tool for C/C++ code
 
     $ cppcheck .
 
+Source Code Coverage Analysis
+_____________________________
+
+Source code coverage analysis here is used to check unit test coverage of whole source code. There are two cases concerned as follow:
+
+* Improve testing procedure coverage, if there was source code not covered by testing.
+* Remove redundant code, if there was no condition could cover or test it.
+
+`gcov -- a Test Coverage Program <https://gcc.gnu.org/onlinedocs/gcc/Gcov.html>`_
+
+`LCOV - the LTP GCOV extension <http://ltp.sourceforge.net/coverage/lcov.php>`_
+
+Steps to create code coverage information:
+
+1. Enable coverage testing the program and compiled with the following options:
+
+   ``$ gcc -Wall -fprofile-arcs -ftest-coverage cov.c``
+
+2. Running test
+
+   ``$ python3 -m pytest -v``
+   (This will create *.gcov)
+
+3. Generate html formate report from *.gcov
+
+   ``$ make lcov``
+   
+   Makefile
+::
+
+   TARGET = _vector
+   lcov:
+           lcov --capture --directory . --output-file $(TARGET).info --test-name $(TARGET)
+           genhtml $(TARGET).info --output-directory output --title "$(TARGET)" --show-details --legend
+
+4. Browse result at ``./output/index.html`` with browser.
 
 Estimated Computations
 ======================
@@ -266,7 +300,7 @@ Conditions:
 
 For the focus stacking part:
 
-5184 x 3456 x 3 x (3 x 3) x 2 multiplication and addition per image
+5184 x 3456 x 3 x (3 x 3) x 2 multiplications and additions per image
 
 Then multiply with how many photos in the directory to stack.
 
