@@ -23,7 +23,7 @@ jobs:
 
     - name: setup
       run: |
-        echo "::add-path::${HOME}/opt/conda/bin"
+        echo "${HOME}/opt/conda/bin" >> $GITHUB_PATH
         echo $GITHUB_REPOSITORY
         echo $GITHUB_REF
         echo ${{ github.event.pull_request.head.ref }}
